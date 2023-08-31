@@ -50,6 +50,15 @@ runs:
         entrypoint: '/bin/bash'
         args: |
           -c "# Be careful with quoting!!!
+          set -x
+          echo '::group::env'
+          env
+          echo '::endgroup::
+          echo '::group::find
+          pwd
+          find ..
+          echo '::endgroup::
+
           chown -R $(whoami) .
 
           # We'd like to use $RUNNER_TEMP to persist files between
