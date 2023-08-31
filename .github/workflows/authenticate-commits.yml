@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize]
 jobs:
-  check-fast-forward:
+  authenticate-commits:
     runs-on: ubuntu-latest
 
     permissions:
