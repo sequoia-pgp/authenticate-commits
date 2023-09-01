@@ -73,7 +73,7 @@ def main(argv):
 
         results = commits.get(commit_id)
         if results is None:
-            print(prefix, "- Not checked.")
+            print(f"{prefix}- Not checked.")
             continue
 
         # Print the results.
