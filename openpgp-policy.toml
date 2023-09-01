@@ -1,0 +1,36 @@
+version = 0
+commit_goodlist = []
+
+[authorization."Neal H. Walfield <neal@pep.foundation>"]
+sign_commit = true
+sign_tag = true
+sign_archive = true
+add_user = true
+retire_user = true
+audit = true
+keyring = """
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Comment: F717 3B3C 7C68 5CD9 ECC4  191B 74E4 45BA 0E15 C957
+Comment: Neal H. Walfield (Code Signing Key) <neal@pep.foundatio
+
+xjMEWhaZ2xYJKwYBBAHaRw8BAQdAinglS6SRXyMb51hMk+mpM4y0Uh0vcGcTyXa+
+BzHW2UDNOU5lYWwgSC4gV2FsZmllbGQgKENvZGUgU2lnbmluZyBLZXkpIDxuZWFs
+QHBlcC5mb3VuZGF0aW9uPsKTBBMWCgA7AhsBCAsJCAcNDAsKBRUKCQgLAh4BAheA
+FiEE9xc7PHxoXNnsxBkbdORFug4VyVcFAmOJ8pAFCQ01v7UACgkQdORFug4VyVeq
+yQEApGhF3Pgb3Vo46phH/mYl17pp3ItOhV25m93OKVziawAA/iMDxo18/YQB0pHU
+X2qBxI5KI2LOGklcz+xFkzTl41oKwpMEExYKADsCGwEICwkIBw0MCwoFFQoJCAsC
+HgECF4AWIQT3Fzs8fGhc2ezEGRt05EW6DhXJVwUCYaeAZAUJCXIaCQAKCRB05EW6
+DhXJVy9uAPwIJ4BYuCTwXPuI2+TGx/uFD70r2VnN8N3gM+VOsXVpOQD+I2XlVoH6
+xjd+qKgtU1Lz6N/mmtnd5tn65NuQYefWOwHCkwQTFgoAOxYhBPcXOzx8aFzZ7MQZ
+G3TkRboOFclXBQJaFpnbAhsBBQkDwmcACAsJCAcNDAsKBRUKCQgLAh4BAheAAAoJ
+EHTkRboOFclXXKIA/j7I0FBPPA4+bxpzpOBTRXIMMrYRGkDOrrdWviQ8sn+RAP4g
+na195IkdBp9WSOXCX1Cr6JBGCnGDuKSsbHl4H6pCCs4zBFoWmm4WCSsGAQQB2kcP
+AQEHQJmPvSbBQvOuY7VoI98i7bXi5aRVqgsIKmM/afM+C1j8wsAvBBgWCgAgFiEE
+9xc7PHxoXNnsxBkbdORFug4VyVcFAloWmm4CGwIAgQkQdORFug4VyVd2IAQZFgoA
+HRYhBH+vbtcjgUNVe99+0mhjya1bTSLTBQJaFppuAAoJEGhjya1bTSLTu1oA/14V
+1Ae0n5r6TD2VI6EpjwF2LOgoaMYJINu0uB4GxgZ5AQC+raxr0qdRMHi52fudLXTX
+LXS2SoC3zSweAKg1ErxUDb5iAQCq+PMsADJsIdvQKlLxELamuT9IPhfZ/FroUDxO
+0B5LfgEAo17DHiJ6Suw4o7WLRocicjk4a9tpj/Z12i9Ssoc1fQo=
+=i3xd
+-----END PGP PUBLIC KEY BLOCK-----
+"""
