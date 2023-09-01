@@ -109,3 +109,5 @@ curl --silent --show-error --location \
      $COMMENTS_URL \
      -d @$COMMENT_JSON
 
+exit $SQ_GIT_LOG_EXIT_CODE
+
