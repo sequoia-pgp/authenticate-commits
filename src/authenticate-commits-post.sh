@@ -93,6 +93,11 @@ then
             echo '```'
         fi
     } | tee -a "$COMMENT"
+else
+    {
+        echo
+        echo "The pull request's base ($BASE_SHA) authenticates all of the commits in the pull request."
+    } | tee -a "$COMMENT"
 fi
 
 # sed 's@[[]\([0-9A-F]\{16,40\}\)[]]@[\1](https://keyserver.ubuntu.com/pks/lookup?search=\1\&fingerprint=on\&op=index)@'
