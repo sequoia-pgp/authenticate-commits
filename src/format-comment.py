@@ -16,6 +16,9 @@ def main(argv):
     argParser.add_argument(
         "-c", "--commit-graph", required=True,
         help="file containing the output of 'git log --pretty=oneline --graph'")
+    argParser.add_argument(
+        "-t", "--trust-root", required=False,
+        help="the commit hash of the trust root")
 
     args = argParser.parse_args()
 
@@ -71,9 +74,13 @@ def main(argv):
         prefix = prefix.replace('*', '|', 1) + "  "
         commit_id = match.group(2)
 
+        if commit_id == args.trust_root:
+            print(f"{prefix}- Trust root.")
+
         results = commits.get(commit_id)
         if results is None:
-            print(f"{prefix}- Not checked.")
+            if commit_id != args.trust_root:
+                print(f"{prefix}- Not checked.")
             continue
 
         # Print the results.
