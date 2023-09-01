@@ -41,9 +41,11 @@ echo ::group::sq-git log
 
 SQ_GIT_LOG=$RESULTS/sq-git-log.json
 SQ_GIT_LOG_STDERR=$RESULTS/sq-git-log.err
+SQ_GIT_LOG_EXIT_CODE=$RESULTS/sq-git-log.ec
 
 sq-git log --output-format=json --keep-going \
        --trust-root "$BASE_SHA" "$HEAD_SHA" \
        2>$SQ_GIT_LOG_STDERR \
        | tee -a $SQ_GIT_LOG
+printf "${PIPESTATUS[0]}" > $SQ_GIT_LOG_EXIT_CODE
 echo; echo ::endgroup::

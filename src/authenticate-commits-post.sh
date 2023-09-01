@@ -55,6 +55,9 @@ SQ_GIT_POLICY_STDERR=$RESULTS/sq-git-policy-describe.err
 
 SQ_GIT_LOG=$RESULTS/sq-git-log.json
 SQ_GIT_LOG_STDERR=$RESULTS/sq-git-log.err
+SQ_GIT_LOG_EXIT_CODE=$RESULTS/sq-git-log.ec
+
+SQ_GIT_LOG_EXIT_CODE=$(cat SQ_GIT_LOG_EXIT_CODE || printf 1)
 
 # We don't want to displays the commits before the merge base.  We
 # need to be careful though: if the merge base is a root (i.e., it has
@@ -76,14 +79,19 @@ $(dirname $0)/format-comment.py --commit-graph "$COMMIT_GRAPH" \
              --log "$SQ_GIT_LOG" \
              | tee -a "$COMMENT"
 
-if test -s "$SQ_GIT_LOG_STDERR"
+if test -s "$SQ_GIT_LOG_STDERR" -o "$SQ_GIT_LOG_EXIT_CODE" != "0"
 then
     {
-        echo "Error executing sq-git:"
         echo
-        echo '```text'
-        cat "$SQ_GIT_LOG_STDERR"
-        echo '```'
+        echo "*Failed to authenticate commits.*"
+        echo
+        if test -s "$SQ_GIT_LOG_STDERR"
+        then
+            echo
+            echo '```text'
+            cat "$SQ_GIT_LOG_STDERR"
+            echo '```'
+        fi
     } | tee -a "$COMMENT"
 fi
 
