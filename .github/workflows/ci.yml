@@ -1,0 +1,39 @@
+# This action is run from the sequoia-pgp/authenticate-commits
+# repository and modifies a different repository,
+# sequoia-pgp/authenticate-commits-unit-test.
+#
+# For this to work, the sequoia-pgp/authenticate-commits needs a token that
+# allows it to modify the sequoia-pgp/authenticate-commits-unit-test
+# repository.  See tests/authenticate-commits.sh for how to to create one, and
+# how to create the repository secret.
+#
+# Alternatively, you can also trigger the unit tests locally, and have
+# them modify a repository that you control.  The aforementioned
+# instructions explain this as well.
+#
+# Note: the ***tokens expire*** after a while so if CI starts failing
+# with permission denied, you need probably need to create a new
+# token.
+
+name: ci
+on:
+  push:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  compile:
+    name: Authenticate Commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check that authenticate-commits works.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AUTHENTICATE_COMMITS_UNIT_TESTS_TOKEN: ${{ secrets.AUTHENTICATE_COMMITS_UNIT_TESTS_TOKEN }}
+        run: tests/authenticate-commits.sh
