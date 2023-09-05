@@ -1,0 +1,5 @@
+*   7bea961b8abc0c3be36506a1eea9a03c83fb7ca4 Merge commit 'd9f784bfba2a975aca7113ab2da44c9ed6c92b09'
+|\  
+| * d9f784bfba2a975aca7113ab2da44c9ed6c92b09 Signed by Bob
+|/  
+* 4f0e3b80070a055273d66e1e80caa2b0db281bad Signed by Alice

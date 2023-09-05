@@ -1,0 +1,10 @@
+```text
+*   7bea961b8abc0c3be36506a1eea9a03c83fb7ca4 Merge commit 'd9f784bfba2a975aca7113ab2da44c9ed6c92b09'
+|     - Authorized by alice [3C7A6BF21A908577]
+|\
+| * d9f784bfba2a975aca7113ab2da44c9ed6c92b09 Signed by Bob
+| |   - Error: Key `02F196DB2327A61E2978A141721E09D85B4B319B` missing
+|/
+* 4f0e3b80070a055273d66e1e80caa2b0db281bad Signed by Alice
+|   - Not checked.
+```

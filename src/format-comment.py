@@ -36,7 +36,7 @@ def main(argv):
     #   ...
     # ]
     log = json.load(open(args.log, "r"))
-    # print(log)
+    # print(f"log: {log}")
 
     # We invert log so that we have a dictionary keyed by the commit
     # id.  Note: there may be multiple entries for a given commit id.
@@ -46,13 +46,19 @@ def main(argv):
         id = entry["id"]
         results = entry["results"]
 
+        # Cached results return an empty list.  A cached result only
+        # occurs if the same commit was authenticated a second time so
+        # it is safe to ignore.
+        if len(results) == 0:
+            continue
+
         if id in commits:
             commits[id].append(results)
         else:
             commits[id] = results
-    # print(commits)
+    # print(f"Commits: {commits}")
 
-    commit_id_re = re.compile("^(.*[^0-9a-f])([0-9a-f]{40})[^0-9a-f]")
+    commit_id_re = re.compile("^(.*?[^0-9a-f])([0-9a-f]{40})[^0-9a-f]")
 
     # ```text
     # * 76eb674aa8919efeb2e43be254f630c807a4b833 Describe limitations of using GitHub in README.
@@ -75,7 +81,23 @@ def main(argv):
         commit_id = match.group(2)
 
         if commit_id == args.trust_root:
-            print(f"{prefix}- Trust root.")
+            # The trust root is (normally) the root.  If the prefix is
+            # just whitespace and a '|', then only show whitespace.
+            # That is, instead of:
+            #
+            # * 2cff1d01f160ee83b0ea4e36ba97d2e8592468d6 Adding bar
+            # |   - Not checked.
+            # * adc8f552e6bf574eef93fc9b611ea0d640bcfd1f Adding foo
+            # |   - Trust root.
+            #
+            # display:
+            #
+            # * 2cff1d01f160ee83b0ea4e36ba97d2e8592468d6 Adding bar
+            # |   - Not checked.
+            # * adc8f552e6bf574eef93fc9b611ea0d640bcfd1f Adding foo
+            #     - Trust root.
+            p = re.sub("^([ ]*)[|]([ ]*$)", r"\1 \2", prefix)
+            print(f"{p}- Trust root.")
 
         results = commits.get(commit_id)
         if results is None:
@@ -91,7 +113,7 @@ def main(argv):
             else:
                 msg = result.get('Err')
                 if msg is not None:
-                    print(f"{prefix}- Error: {msg}")
+                    print(f"{prefix}- Error: {msg[0]}")
                 else:
                     print(f"{prefix}- Invalid JSON: {result}")
 

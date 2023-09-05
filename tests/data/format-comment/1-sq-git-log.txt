@@ -1,0 +1,25 @@
+  [
+    {
+      "id": "7bea961b8abc0c3be36506a1eea9a03c83fb7ca4",
+      "results": [
+        {
+          "Ok": "alice [3C7A6BF21A908577]"
+        }
+      ]
+    },
+    {
+      "id": "7bea961b8abc0c3be36506a1eea9a03c83fb7ca4",
+      "results": []
+    },
+    {
+      "id": "d9f784bfba2a975aca7113ab2da44c9ed6c92b09",
+      "results": [
+        {
+          "Err": [
+            "Key `02F196DB2327A61E2978A141721E09D85B4B319B` missing",
+            null
+          ]
+        }
+      ]
+    }
+  ]
