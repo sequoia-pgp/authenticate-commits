@@ -96,7 +96,7 @@ then
 else
     {
         echo
-        echo "The pull request's base ($BASE_SHA) authenticates all of the commits in the pull request."
+        echo "The pull request's base ($BASE_SHA) authenticates the pull request's head ($HEAD_SHA)."
     } | tee -a "$COMMENT"
 fi
 
