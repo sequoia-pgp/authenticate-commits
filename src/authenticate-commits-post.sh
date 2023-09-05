@@ -79,7 +79,7 @@ $(dirname $0)/format-comment.py --commit-graph "$COMMIT_GRAPH" \
              --log "$SQ_GIT_LOG" --trust-root "$BASE_SHA" \
              | tee -a "$COMMENT"
 
-if test -s "$SQ_GIT_LOG_STDERR" -o "$SQ_GIT_LOG_EXIT_CODE" != "0"
+if test "$SQ_GIT_LOG_EXIT_CODE" != "0"
 then
     {
         echo
