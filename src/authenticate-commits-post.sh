@@ -111,6 +111,24 @@ else
     } | tee -a "$COMMENT_CONTENT"
 fi
 
+# The step's summary.
+{
+    cat $COMMENT_CONTENT
+    echo
+
+    echo '```'
+    echo "$ sq-git policy describe HEAD"
+    cat "$SQ_GIT_POLICY"
+    echo
+
+    if test -s "$SQ_GIT_POLICY_STDERR"
+    then
+        echo "stderr:"
+        cat "$SQ_GIT_POLICY_STDERR"
+    fi
+    echo '```'
+} | tee -a $GITHUB_STEP_SUMMARY
+
 # sed 's@[[]\([0-9A-F]\{16,40\}\)[]]@[\1](https://keyserver.ubuntu.com/pks/lookup?search=\1\&fingerprint=on\&op=index)@'
 
 COMMENT_JSON=$(mktemp)

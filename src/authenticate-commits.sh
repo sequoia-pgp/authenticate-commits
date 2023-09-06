@@ -32,7 +32,7 @@ echo ::group::sq-git policy describe
 SQ_GIT_POLICY=$RESULTS/sq-git-policy-describe.json
 SQ_GIT_POLICY_STDERR=$RESULTS/sq-git-policy-describe.err
 
-sq-git policy describe --output-format=json \
+sq-git policy describe \
        2>$SQ_GIT_POLICY_STDERR \
        | tee -a $SQ_GIT_POLICY
 echo; echo ::endgroup::
