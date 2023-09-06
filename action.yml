@@ -32,6 +32,20 @@ inputs:
   github_token:
     description: 'GITHUB_TOKEN'
     default: '${{ github.token }}'
+  comment:
+    description: >
+      Whether to post a comment.
+
+      If set to true or always, this posts a comment to the pull
+      request indicating whether the commits could be authenticated.
+
+      If set to on-error (the default), a comment is only posted if
+      the commits could not be authenticated.
+
+      If false or never, no comment is posted.  The comment is
+      still available via the comment output variable, and in the
+      step's summary.
+    default: on-error
 outputs:
   comment:
     description: >

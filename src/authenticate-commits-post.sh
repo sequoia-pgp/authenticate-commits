@@ -2,6 +2,17 @@
 
 set -ex
 
+# Set to true to post a comment to the issue.
+case "${COMMENT:-true}" in
+    0 | never | false | FALSE) COMMENT=never;;
+    1 | always | true | TRUE) COMMENT=always;;
+    on-error) COMMENT=on-error;;
+    *)
+        echo "Warning: Invalid value ('$COMMENT') for COMMENT." >&2;
+        COMMENT=on-error
+        ;;
+esac
+
 if test "x$GITHUB_EVENT_PATH" = x
 then
     echo "GITHUB_EVENT_PATH environment variable must be set." >&2
@@ -74,10 +85,10 @@ git log --pretty=oneline --graph $EXCLUDE "$BASE_SHA" "$HEAD_SHA" \
     | tee -a "$COMMIT_GRAPH"
 
 # Pretty-print the comment.
-COMMENT=$(mktemp)
+COMMENT_CONTENT=$(mktemp)
 $(dirname $0)/format-comment.py --commit-graph "$COMMIT_GRAPH" \
              --log "$SQ_GIT_LOG" --trust-root "$BASE_SHA" \
-             | tee -a "$COMMENT"
+             | tee -a "$COMMENT_CONTENT"
 
 if test "$SQ_GIT_LOG_EXIT_CODE" != "0"
 then
@@ -92,18 +103,18 @@ then
             cat "$SQ_GIT_LOG_STDERR"
             echo '```'
         fi
-    } | tee -a "$COMMENT"
+    } | tee -a "$COMMENT_CONTENT"
 else
     {
         echo
         echo "The pull request's base ($BASE_SHA) authenticates the pull request's head ($HEAD_SHA)."
-    } | tee -a "$COMMENT"
+    } | tee -a "$COMMENT_CONTENT"
 fi
 
 # sed 's@[[]\([0-9A-F]\{16,40\}\)[]]@[\1](https://keyserver.ubuntu.com/pks/lookup?search=\1\&fingerprint=on\&op=index)@'
 
 COMMENT_JSON=$(mktemp)
-jq -n --rawfile log "$COMMENT" '{ "body": $log }' >"$COMMENT_JSON"
+jq -n --rawfile log "$COMMENT_CONTENT" '{ "body": $log }' >"$COMMENT_JSON"
 
 # Set the comment output variable.
 {
@@ -113,14 +124,20 @@ jq -n --rawfile log "$COMMENT" '{ "body": $log }' >"$COMMENT_JSON"
     echo "EOF_COMMENT_JSON"
 } | tee -a "$GITHUB_OUTPUT"
 
-COMMENTS_URL="$(github_event .pull_request.comments_url)"
-curl --silent --show-error --location \
-     -X POST \
-     -H "Accept: application/vnd.github+json" \
-     -H "Authorization: Bearer $GITHUB_TOKEN" \
-     -H "X-GitHub-Api-Version: 2022-11-28" \
-     $COMMENTS_URL \
-     -d @$COMMENT_JSON
+if test "x$COMMENT" = xalways \
+        -o \( "x$COMMENT" = xon-error -a "$SQ_GIT_LOG_EXIT_CODE" -ne 0 \)
+then
+    COMMENTS_URL="$(github_event .pull_request.comments_url)"
+    curl --silent --show-error --location \
+         -X POST \
+         -H "Accept: application/vnd.github+json" \
+         -H "Authorization: Bearer $GITHUB_TOKEN" \
+         -H "X-GitHub-Api-Version: 2022-11-28" \
+         $COMMENTS_URL \
+         -d @$COMMENT_JSON
+else
+    echo "Not posting comment."
+fi
 
 exit $SQ_GIT_LOG_EXIT_CODE
 
