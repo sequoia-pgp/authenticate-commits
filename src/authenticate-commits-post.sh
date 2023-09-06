@@ -103,7 +103,15 @@ fi
 # sed 's@[[]\([0-9A-F]\{16,40\}\)[]]@[\1](https://keyserver.ubuntu.com/pks/lookup?search=\1\&fingerprint=on\&op=index)@'
 
 COMMENT_JSON=$(mktemp)
-jq -n --rawfile log "$COMMENT" '{ "body": $log }' >$COMMENT_JSON
+jq -n --rawfile log "$COMMENT" '{ "body": $log }' >"$COMMENT_JSON"
+
+# Set the comment output variable.
+{
+    # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
+    echo "comment<<EOF_COMMENT_JSON"
+    cat "$COMMENT_JSON"
+    echo "EOF_COMMENT_JSON"
+} | tee -a "$GITHUB_OUTPUT"
 
 COMMENTS_URL="$(github_event .pull_request.comments_url)"
 curl --silent --show-error --location \

@@ -32,6 +32,15 @@ inputs:
   github_token:
     description: 'GITHUB_TOKEN'
     default: '${{ github.token }}'
+outputs:
+  comment:
+    description: >
+      The comment.
+
+      A comment explaining whether commits could be authenticated.
+
+      The comment is a JSON document with a single field, `body`.
+    value: ${{ steps.authenticate-commits-post.outputs.comment }}
 runs:
   using: "composite"
   steps:
@@ -113,7 +122,8 @@ runs:
           "
     # The sq-git image doesn't include curl or jq.  So we do the
     # processing separately.
-    - run: ${{ github.action_path }}/src/authenticate-commits-post.sh
+    - id: authenticate-commits-post
+      run: ${{ github.action_path }}/src/authenticate-commits-post.sh
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
         BASE_SHA: ${{ github.event.pull_request.base.sha }}
