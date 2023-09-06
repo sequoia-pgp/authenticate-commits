@@ -94,8 +94,8 @@ commits.
 
 Before you merge a change you run `sq-git log` to make sure it is
 authorized.  Add this workflow to
-`.github/workflows/authenticate-commits.yml` to run `sq-git` whenever
-a pull request is opened or updated:
+[`.github/workflows/authenticate-commits.yml`](.github/workflows/authenticate-commits.yml)
+to run `sq-git` whenever a pull request is opened or updated:
 
 ```yaml
 name: authenticate-commits
