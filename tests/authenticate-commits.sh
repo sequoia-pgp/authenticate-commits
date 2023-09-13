@@ -156,9 +156,19 @@ echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
 # Check that the branch has been pushed to origin.
 if test -z "$(git branch -r --list 'origin/*' --contains $GITHUB_HEAD_REF)"
 then
-    echo "The commit we want to test ($GITHUB_HEAD_REF) does not appear to have been pushed to origin."
-    git branch -r | while read b; do git log --format=oneline -n 1 "$b"; done
-    exit 1
+    # https://docs.github.com/en/actions/learn-github-actions/variables
+    #
+    #   GITHUB_REF_TYPE: The type of ref that triggered the workflow
+    #   run. Valid values are branch or tag.
+    #
+    # Note: when run from the command line (i.e., not from CI), the
+    # user probably did not set GITHUB_REF_TYPE.
+    if test "x$GITHUB_REF_TYPE" != xtag
+    then
+        echo "The commit we want to test ($GITHUB_HEAD_REF) does not appear to have been pushed to origin."
+        git branch -r | while read b; do git log --format=oneline -n 1 "$b"; done
+        exit 1
+    fi
 fi
 
 echo "::group::Initializing scratch repository"
