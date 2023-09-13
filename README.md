@@ -1,5 +1,16 @@
 # Authenticate Commits
 
+This repository contains a GitHub action that authenticates commits
+according to a signing policy.  The policy is saved in the repository,
+which allows it to evolve just like the rest of the repository's
+content.  The action is powered by [Sequoia
+git](https://gitlab.com/sequoia-pgp/sequoia-git), which [specifies a
+set of semantics](https://sequoia-pgp.gitlab.io/sequoia-git/), defines
+a policy language, and provides a set of tools to manage a policy
+file, and authenticate commits.
+
+[![Screenshot of a video demonstrating the action](assets/demo-youtube-screenshot.jpg)](https://www.youtube.com/watch?v=KdDbU9u5X-Q)
+
 ## Introduction
 
 A version control system like `git` doesn't just track changes, it
