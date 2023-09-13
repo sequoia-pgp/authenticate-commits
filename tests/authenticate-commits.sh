@@ -67,7 +67,7 @@ fi
 
 # Print the environment (for debugging purposes).
 echo "::group::env"
-env
+env | sort
 echo "::endgroup::"
 
 
