@@ -124,7 +124,7 @@ jobs:
 
     steps:
       - name: Authenticating commits
-        uses: sequoia-pgp/authenticate-commits@main
+        uses: sequoia-pgp/authenticate-commits@v1
         with:
           # To reduce the workflow's verbosity, use 'on-error'
           # to only post a comment when an error occurs, or 'never' to
